@@ -1,4 +1,6 @@
-<?php require_once('../../private/initialize.php'); ?>
+<?php require_once('../../private/initialize.php');
+require_login();
+?>
 
 <?php
 
@@ -18,7 +20,7 @@ $bird = Bird::find_by_id($id);
 
 <div id="content">
 
-  <a class="back-link" href="<?php echo url_for('/birds.php'); ?>">&laquo; Back to List</a>
+  <a class="back-link" href="<?php echo url_for('/birds/birds.php'); ?>">&laquo; Back to List</a>
 
   <div class="bird show">
 

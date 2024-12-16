@@ -6,6 +6,7 @@ class Session
   private $member_id;
   public $username;
   private $last_login;
+  private $user_level;
 
   public const MAX_LOGIN_AGE = 60 * 60 * 24; // 1 day
 
@@ -18,11 +19,16 @@ class Session
   public function login($member)
   {
     if ($member) {
-      // prevent session fixation attacks
       session_regenerate_id();
-      $this->member_id = $_SESSION['member_id'] = $member->id;
-      $this->username = $_SESSION['username'] = $member->username;
-      $this->last_login = $_SESSION['last_login'] = time();
+      $_SESSION['member_id'] = $member->id;
+      $_SESSION['username'] = $member->username;
+      $_SESSION['last_login'] = time();
+      $_SESSION['user_level'] = $member->user_level;
+
+      $this->member_id = $member->id;
+      $this->username = $_SESSION['member_id'] = $member->username;
+      $this->last_login = time();
+      $this->user_level = $member->user_level;
     }
     return true;
   }
@@ -31,6 +37,11 @@ class Session
   {
     // return isset($this->member_id);
     return isset($this->member_id) && $this->last_login_is_recent();
+  }
+
+  public function is_admin_logged_in()
+  {
+    return $this->is_logged_in() && $this->user_level == 'a';
   }
 
   public function logout()
@@ -48,8 +59,9 @@ class Session
   {
     if (isset($_SESSION['member_id'])) {
       $this->member_id = $_SESSION['member_id'];
-      $this->username = $_SESSION['username'];
-      $this->last_login = $_SESSION['last_login'];
+      $this->username = $_SESSION['username'] ?? NULL;
+      $this->user_level = $_SESSION['user_level'] ?? NULL;
+      $this->last_login = $_SESSION['last_login'] ?? NULL;
     }
   }
 

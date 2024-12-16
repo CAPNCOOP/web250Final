@@ -6,7 +6,10 @@ class DatabaseObject
   static protected $database;
   static protected $table_name = "";
   static protected $columns = [];
+  static protected $db_columns = [];
   public $errors = [];
+
+  public $id;
 
   static public function set_database($database)
   {
@@ -112,7 +115,6 @@ class DatabaseObject
     $result = self::$database->query($sql);
     return $result;
   }
-
   public function save()
   {
     // A new record will not have an ID yet
@@ -126,7 +128,7 @@ class DatabaseObject
   public function merge_attributes($args = [])
   {
     foreach ($args as $key => $value) {
-      if (property_exists($this, $key) && !is_null($value)) {
+      if (property_exists($this, $key) && $key != 'id') { // Do not overwrite 'id'
         $this->$key = $value;
       }
     }

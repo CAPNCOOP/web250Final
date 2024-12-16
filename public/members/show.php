@@ -14,7 +14,11 @@ $member = Member::find_by_id($id);
 
 <div id="content">
 
-  <a class="back-link" href="<?php echo url_for('/members/index.php'); ?>">&laquo; Back to List</a>
+  <a class="back-link" href="<?php echo url_for('/birds/birds.php'); ?>">&laquo; Back to List</a>
+
+  <?php if ($session->is_logged_in()) { ?>
+    <a class="back-link" href="<?php echo url_for('/members/index.php'); ?>">&laquo; Back to Member List</a>
+  <?php } ?>
 
   <div class="member show">
 
@@ -36,6 +40,10 @@ $member = Member::find_by_id($id);
       <dl>
         <dt>Username</dt>
         <dd><?php echo h($member->username); ?></dd>
+      </dl>
+      <dl>
+        <dt>User Level</dt>
+        <dd><?php echo h($member->user_level); ?></dd>
       </dl>
     </div>
 

@@ -12,6 +12,7 @@ class Member extends DatabaseObject
   public $email;
   public $username;
   protected $hashed_password;
+  public $user_level;
   public $password;
   public $confirm_password;
   protected $password_required = true;
@@ -22,6 +23,7 @@ class Member extends DatabaseObject
     $this->last_name = $args['last_name'] ?? '';
     $this->email = $args['email'] ?? '';
     $this->username = $args['username'] ?? '';
+    $this->user_level = $args['user_level'] ?? '';
     $this->password = $args['password'] ?? '';
     $this->confirm_password = $args['confirm_password'] ?? '';
   }
@@ -31,7 +33,7 @@ class Member extends DatabaseObject
     return $this->first_name . " " . $this->last_name;
   }
 
-  protected function set_hashed_password()
+  public function set_hashed_password()
   {
     $this->hashed_password = password_hash($this->password, PASSWORD_BCRYPT);
   }

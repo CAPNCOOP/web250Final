@@ -1,6 +1,5 @@
 <?php require_once('../private/initialize.php'); ?>
 
-<?php require_login(); ?>
 
 <?php $page_title = 'Member Menu'; ?>
 <?php include(SHARED_PATH . '/public_header.php');  ?>
@@ -9,8 +8,10 @@
   <div id="main-menu">
     <h2>Main Menu</h2>
     <ul>
-      <li><a href="<?php echo url_for('/active-record/index.php'); ?>">Birds</a></li>
-      <li><a href="<?php echo url_for('/members/index.php'); ?>">Members</a></li>
+      <li><a href="<?php echo url_for('/birds/birds.php'); ?>">Birds</a></li>
+      <?php if ($session->is_logged_in()) { ?>
+        <li><a href="<?php echo url_for('/members/index.php'); ?>">Members</a></li>
+      <?php } ?>
     </ul>
   </div>
 

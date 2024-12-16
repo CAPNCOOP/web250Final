@@ -1,28 +1,29 @@
 <?php
 
 require_once('../../private/initialize.php');
+require_login();
 
 if (!isset($_GET['id'])) {
-  redirect_to(url_for('/public/active-record/index.php'));
+  redirect_to(url_for('../index.php'));
 }
 $id = $_GET['id'];
 
 $bird = Bird::find_by_id($id);
 if ($bird == false) {
-  redirect_to(url_for('../public/index.php'));
+  redirect_to(url_for('../index.php'));
 }
 
 
 if (is_post_request()) {
 
   // Save record using post parameters
-  $args = $_POST['bird'];
+  $args = $_POST['bird'] ?? [];
   $bird->merge_attributes($args);
-  $bird->save();
+  $result = $bird->save();
 
   if ($result === true) {
     $_SESSION['message'] = 'The bird was updated successfully.';
-    redirect_to(url_for('/active-record/show.php?id=' . $id));
+    redirect_to(url_for('/birds/show.php?id=' . $id));
   } else {
     // show errors
   }
@@ -30,7 +31,7 @@ if (is_post_request()) {
 
   $bird = Bird::find_by_id($id);
   if ($bird === false) {
-    redirect_to(url_for('/active-record/index.php'));
+    redirect_to(url_for('../index.php'));
   }
 }
 
@@ -41,14 +42,14 @@ if (is_post_request()) {
 
 <div id="content">
 
-  <a class="back-link" href="<?php echo url_for('/active-record/index.php'); ?>">&laquo; Back to List</a>
+  <a class="back-link" href="<?php echo url_for('../public/birds/birds.php'); ?>">&laquo; Back to List</a>
 
   <div class="bird edit">
     <h1>Edit Bird</h1>
 
     <?php echo display_errors($bird->errors); ?>
 
-    <form action="<?php echo url_for('/active-record/edit.php?id=' . h(u($id))); ?>" method="post">
+    <form action="<?php echo url_for('/birds/show.php?id=' . h(u($id))); ?>" method="post">
 
       <?php include('form_fields.php'); ?>
 

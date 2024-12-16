@@ -27,16 +27,23 @@
 
   <header>
     <h1>
-      <a href="<?php echo url_for('/active-record/index.php'); ?>">
+      <a href="<?php echo url_for('/birds/birds.php'); ?>">
         WNC Birds
       </a>
     </h1>
 
     <nav>
       <ul>
-        <li><strong>User: <?php echo $session->username; ?></strong></li>
-        <li><a href="<?php echo url_for('../public/index.php') ?>">Menu</a></li>
-        <li><a href="<?php echo url_for('../public/logout.php') ?>">Logout</a></li>
+        <?php if ($session->is_logged_in()) { ?>
+          <li><strong>User: <?php echo $session->username; ?></strong></li>
+        <?php } ?>
+
+        <li><a href="<?php echo url_for('login.php') ?>">Log In</a></li>
+        <li><a href="<?php echo url_for('signup.php') ?>">Sign Up</a></li>
+
+        <?php if ($session->is_logged_in()) { ?>
+          <li><a href="<?php echo url_for('logout.php') ?>">Log Out</a></li>
+        <?php } ?>
       </ul>
     </nav>
 

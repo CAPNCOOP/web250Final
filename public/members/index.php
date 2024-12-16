@@ -18,13 +18,14 @@ $members = Member::find_all();
       <a class="action" href="<?php echo url_for('/members/new.php'); ?>">Add member</a>
     </div>
 
-    <table class="list">
+    <table>
       <tr>
         <th>ID</th>
         <th>First name</th>
         <th>Last name</th>
         <th>Email</th>
         <th>Username</th>
+        <th>User Level</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
@@ -37,9 +38,12 @@ $members = Member::find_all();
           <td><?php echo h($member->last_name); ?></td>
           <td><?php echo h($member->email); ?></td>
           <td><?php echo h($member->username); ?></td>
+          <td><?php echo h($member->user_level); ?></td>
           <td><a class="action" href="<?php echo url_for('/members/show.php?id=' . h(u($member->id))); ?>">View</a></td>
-          <td><a class="action" href="<?php echo url_for('/members/edit.php?id=' . h(u($member->id))); ?>">Edit</a></td>
-          <td><a class="action" href="<?php echo url_for('/members/delete.php?id=' . h(u($member->id))); ?>">Delete</a></td>
+          <?php if ($session->is_admin_logged_in()) { ?>
+            <td><a class="action" href="<?php echo url_for('/members/edit.php?id=' . h(u($member->id))); ?>">Edit</a></td>
+            <td><a class="action" href="<?php echo url_for('/members/delete.php?id=' . h(u($member->id))); ?>">Delete</a></td>
+          <?php } ?>
         </tr>
       <?php } ?>
     </table>

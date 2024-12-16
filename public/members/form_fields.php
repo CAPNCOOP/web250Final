@@ -2,7 +2,7 @@
 // prevents this code from being loaded directly in the browser
 // or without first setting the necessary object
 if (!isset($member)) {
-  redirect_to(url_for('/public/members/index.php'));
+  redirect_to(url_for('index.php'));
 }
 ?>
 
@@ -25,6 +25,13 @@ if (!isset($member)) {
   <dt>Username</dt>
   <dd><input type="text" name="member[username]" value="<?php echo h($member->username); ?>" /></dd>
 </dl>
+
+<?php if ($session->is_admin_logged_in()) { ?>
+  <dl>
+    <dt>User Level</dt>
+    <dd><input type="text" name="member[user_level]" value="<?php echo h($member->user_level); ?>" /></dd>
+  </dl>
+<?php } ?>
 
 <dl>
   <dt>Password</dt>
